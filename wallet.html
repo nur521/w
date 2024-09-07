@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Введите Ton-кошелёк</title>
+    <script>
+        // Функция для получения параметра из URL
+        function getQueryParam(param) {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // При загрузке страницы получаем UserID и заполняем скрытое поле формы
+        window.onload = function() {
+            let userId = getQueryParam('userid');
+            document.getElementById('userid').value = userId;
+        };
+    </script>
+</head>
+<body>
+    <h2>Введите адрес вашего Ton-кошелька</h2>
+    <form action="/submit_wallet" method="POST">
+        <input type="hidden" id="userid" name="userid"><!-- Скрытое поле для UserID -->
+        <label for="wallet">Адрес Ton-кошелька:</label><br>
+        <input type="text" id="wallet" name="wallet" required><br><br>
+        <input type="submit" value="Отправить">
+    </form>
+</body>
+</html>

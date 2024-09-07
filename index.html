@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web App</title>
+    <style>
+        .token{
+            margin-left: 51%;
+            margin-top: -2.5%;
+        }
+        .d{
+            background-color: black;
+        }
+    </style>
+    <script>
+        // Функция для извлечения параметров из URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            let results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Функция для отображения данных пользователя на странице
+        function displayUserInfo() {
+            const username = getParameterByName('username') || "Гость";
+            const userId = getParameterByName('user_id') || "Неизвестно";
+            const balance = getParameterByName('balance') || "0";
+            const remainingTokens = getParameterByName('remaining_tokens') || "Неизвестно";
+            const referrals = getParameterByName('referrals') || "0";
+
+            document.getElementById('username').textContent = username;
+            document.getElementById('user_id').textContent = userId;
+            document.getElementById('balance').textContent = balance;
+            document.getElementById('remaining_tokens').textContent = remainingTokens;
+            document.getElementById('referrals').textContent = referrals;
+
+            // Показать реферальную ссылку как активную ссылку
+            const referralLink = `https://t.me/Practice_app_bot?start=${userId}`;
+            document.getElementById('referral_link').textContent = referralLink;
+            document.getElementById('referral_link').href = referralLink;
+        }
+
+        // Выполняем функцию при загрузке страницы
+        window.onload = displayUserInfo;
+
+        // Функция для показа списка рефералов
+        function showReferralList() {
+            const referrals = getParameterByName('referrals') || "0";
+            const referralList = referrals > 0 ? `You have ${referrals} referrals.` : "You have no referrals.";
+            document.getElementById('referral_list').textContent = referralList;
+        }
+    </script>
+</head>
+<body>
+    <h1 align="center">Hello, <span id="username">Гость</span>!</h1>
+    <p align="center">Your Telegram ID: <span id="user_id">Неизвестно</span></p>
+    <div class="d" text="white"><font color="white"><p align="center">Your total balance: </p></font>
+    <h1 align="center" text="white"><font color="lime"><span id="balance">0</span></font></h1>
+    <h4 class="token"><font color="lime">MineCoins</font></h4></div>
+    <p>Total remaining tokens: <span id="remaining_tokens">Неизвестно</span> MineCoins</p>
+
+    <h3>Referrals</h3>
+    <p>Referrals count: <span id="referrals">0</span></p>
+
+    <button onclick="showReferralList()">Referral List</button>
+    <p id="referral_list"></p>
+
+    <h3>Your Referral Link</h3>
+    <a id="referral_link" href="#" style="color: blue; text-decoration: underline;">Click to copy</a>
+    <a href="wallet.html?userid={user_id}">Перейти к вводу Ton-кошелька</a>
+
+</body>
+</html>
